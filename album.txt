@@ -1,0 +1,14 @@
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "album")
+data class Album(
+        var albumName : String = "",
+        var date : String = "",
+        var treeCount : Int = 0,
+        var appleCount : Int = 0,
+        var photoCount : Int = 0,
+        var url : String?,
+        @PrimaryKey
+        var id: String = ""
+)

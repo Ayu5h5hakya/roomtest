@@ -1,0 +1,25 @@
+import androidx.room.*
+import androidx.room.ForeignKey.CASCADE
+import edu.wsu.core.models.Location
+import edu.wsu.features.albums.data.models.Album
+
+@Entity(
+        tableName = "tree",
+        foreignKeys = [ForeignKey(
+                entity = Album::class,
+                parentColumns = arrayOf("id"),
+                childColumns = arrayOf("album_id"),
+                onDelete = CASCADE
+        )])
+data class Tree(
+        @ColumnInfo(name = "album_id")
+        var albumId : String,
+        var title : String,
+        var appleCount : Int,
+        var photoCount : Int,
+        var url : String?,
+        @Embedded
+        var location : Location = Location(),
+        @PrimaryKey
+        var id : String
+)
