@@ -1,0 +1,6 @@
+var countingDatabase: CountingDatabase? = null
+
+    private fun createDatabase(context: Context): CountingDatabase {
+        return countingDatabase ?: Room.databaseBuilder(applicationContext,
+                CountingDatabase::class.java, "apple_count_database").build()
+    }
