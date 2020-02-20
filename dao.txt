@@ -1,0 +1,77 @@
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+
+import edu.wsu.features.albums.data.models.Album
+
+/**
+ * Created by hamropatro on 7/3/17.
+ */
+
+
+@Dao
+interface AlbumDao {
+
+    @get:Query("SELECT * FROM album")
+    val allAlbums: List<Album>
+
+    @Query("SELECT * FROM album WHERE id IN (:ids)")
+    fun loadAllAlbumsByIds(ids: IntArray): LiveData<List<Album>>
+
+    @Query("SELECT * FROM album WHERE id = :id")
+    fun findAlbumById(id: String): Album
+
+    @Insert
+    fun saveAll(vararg album: Album)
+
+    @Insert
+    fun saveAlbum(album: Album): Long
+
+    @Query("UPDATE album SET albumName = :newName WHERE id = :albumId")
+    fun updateAlbum(albumId: String, newName : String)
+
+    @Delete
+    fun delete(album: Album)
+
+    @Query("DELETE FROM album WHERE id = :albumId")
+    fun deletealbumById(albumId: String)
+
+    @Query("SELECT COUNT(*) FROM album")
+    fun count(): Int
+
+    @Query("SELECT treeCount FROM album where id = :id")
+    fun countTrees(id: String): Int
+
+    @Query("SELECT photoCount FROM album where id = :id")
+    fun countPhotos(id: String): Int
+
+    @Query("SELECT appleCount FROM album where id = :id")
+    fun countApples(id: String): Int
+
+    @Query("UPDATE album SET treeCount = treeCount + 1 WHERE id = :id")
+    fun increaseTreeCount(id: String)
+
+    @Query("UPDATE album SET treeCount = treeCount - 1 WHERE id = :id")
+    fun decreaseTreeCount(id: String)
+
+    @Query("UPDATE album SET photoCount = photoCount + 1 WHERE id = :id")
+    fun increasePhotoCount(id: String)
+
+    @Query("UPDATE album SET photoCount = photoCount - 1 WHERE id = :id")
+    fun decreasePhotoCount(id: String)
+
+    @Query("UPDATE album SET appleCount = appleCount + :count WHERE id = :id")
+    fun updateAppleCount(count: Int, id: String)
+
+    @Query("UPDATE album SET url = :url WHERE id = :id AND url IS NULL")
+    fun updateUrl(url: String?, id: String)
+
+    @Query("UPDATE album SET url = null WHERE id = :id AND url IS NULL")
+    fun resetUrl(id: String)
+
+    @Query("SELECT url FROM album WHERE id = :id")
+    fun getAlbumUrl(id: String): String
+
+}
